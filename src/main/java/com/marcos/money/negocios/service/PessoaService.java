@@ -45,7 +45,7 @@ public class PessoaService {
 //	deletar
 	
 	public void deletar(Long codigo) {
-		pessoaRepository.deleteById(codigo);
+		pessoaRepository.delete(codigo);
 		
 	}
 //	atualizar

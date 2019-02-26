@@ -50,8 +50,8 @@ public class CategoriaResource {
 	
 	// BUSCAR POR ID
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Optional<Categoria>> buscarID(@PathVariable Long codigo){
-		Optional<Categoria> codigoEncontrado = categoriaService.buscarID(codigo);
+	public ResponseEntity<Categoria> buscarID(@PathVariable Long codigo){
+		Categoria codigoEncontrado = categoriaService.buscarID(codigo);
 		if (codigoEncontrado !=null)
 			return ResponseEntity.ok(codigoEncontrado);
 		else

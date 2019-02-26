@@ -35,13 +35,13 @@ public class CategoriaService {
 	
 //	Buscar por iD
 	
-	public Optional<Categoria> buscarID(Long codigo){
-		return categoriaRepository.findById(codigo);
+	public Categoria buscarID(Long codigo){
+		return categoriaRepository.findOne(codigo);
 	}
 	
 //	deletar
 	public void delelar(Long codigo) {
-		categoriaRepository.deleteById(codigo);
+		categoriaRepository.delete(codigo);
 	}
 	
 //	buscar por nome unico

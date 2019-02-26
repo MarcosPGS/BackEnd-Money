@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,15 +38,12 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoService  lancamentoService;
 	
-	@PostConstruct
-	void started(){
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	}
+
 	
 //	LISTAR TODOS
 	@GetMapping
-	public List<Lancamento> pesquisar( LancamentoFilter lancamentoFilter){
-		return lancamentoService.pesquisaFiltrada(lancamentoFilter);
+	public Page<Lancamento> pesquisar( LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoService.pesquisaFiltrada(lancamentoFilter, pageable);
 	}
 //	public ResponseEntity<?> pesquisar(LancamentoFilter lancamentoFilter){
 //		List<Lancamento> lancamentos = lancamentoService.listar();

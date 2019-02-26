@@ -3,6 +3,8 @@ package com.marcos.money.negocios.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.marcos.money.entity.Lancamento;
@@ -24,8 +26,8 @@ public class LancamentoService {
 	
 	
 //	LISTAR TODOS
-	public List<Lancamento> pesquisaFiltrada(LancamentoFilter lancamentoFilter){
-		return lancamentoRepository.filtar(lancamentoFilter);	}
+	public Page<Lancamento> pesquisaFiltrada(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoRepository.filtrar(lancamentoFilter, pageable);	}
 	
 //	BUSCAR POR ID
 	public Lancamento buscarPorID( Long codigo) throws LancamentoNotFundException {
@@ -59,6 +61,6 @@ public class LancamentoService {
 		}
 //	DELETAR
 	public void deletar(Long codigo) {
-		lancamentoRepository.deleteById(codigo);
+		lancamentoRepository.delete(codigo);
 	}
 }
