@@ -1,13 +1,14 @@
 package com.marcos.money.resource;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.money.entity.Categoria;
 import com.marcos.money.negocios.service.CategoriaService;
+
 import exceptions.CategoriaDuplicadoException;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/categorias")
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class CategoriaResource {
 	
 	@Autowired
@@ -33,6 +36,7 @@ public class CategoriaResource {
 	
 //	LISTA TODOS
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public ResponseEntity<?> listar(){
 		List<Categoria> categorias = categoriaService.listarTodos();		
 		return !categorias.isEmpty() ? ResponseEntity.ok(categorias) : ResponseEntity.noContent().build();
@@ -50,6 +54,7 @@ public class CategoriaResource {
 	
 	// BUSCAR POR ID
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public ResponseEntity<Categoria> buscarID(@PathVariable Long codigo){
 		Categoria codigoEncontrado = categoriaService.buscarID(codigo);
 		if (codigoEncontrado !=null)
@@ -61,6 +66,7 @@ public class CategoriaResource {
 //	CRIANDO  ENTIDADE
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
 	public ResponseEntity<Object> salvar(@Valid @RequestBody Categoria categoria){
 		try {
 			return ResponseEntity.ok().body(categoriaService.salvar(categoria));

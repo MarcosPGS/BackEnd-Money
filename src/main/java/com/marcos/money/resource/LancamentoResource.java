@@ -1,9 +1,5 @@
 package com.marcos.money.resource;
 
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.money.entity.Lancamento;
-import com.marcos.money.repository.LancamentoRepository;
-import com.marcos.money.repository.filter.LancamentoFilter;
 import com.marcos.money.negocios.service.LancamentoService;
+import com.marcos.money.repository.filter.LancamentoFilter;
 
 import exceptions.LancamentoDuplicadoException;
 import exceptions.LancamentoNotFundException;

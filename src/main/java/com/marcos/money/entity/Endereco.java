@@ -2,7 +2,7 @@ package com.marcos.money.entity;
 
 import javax.persistence.Embeddable;
 
-@Embeddable // essaanotação diz que é um complemento da classe Pessoa - Serve para nao colocar tudo em umaclasse só
+@Embeddable // essa anotação diz que é um complemento da classe Pessoa - Serve para nao colocar tudo em uma classe só
 public class Endereco{
 	
 	
@@ -13,6 +13,8 @@ public class Endereco{
 	private String cep;
 	private String cidade;
 	private String estado;
+	
+	
 	public String getLogradouro() {
 		return logradouro;
 	}
