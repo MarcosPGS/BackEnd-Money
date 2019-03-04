@@ -12,6 +12,7 @@ import com.marcos.money.entity.Pessoa;
 import com.marcos.money.repository.LancamentoRepository;
 import com.marcos.money.repository.PessoaRepository;
 import com.marcos.money.repository.filter.LancamentoFilter;
+import com.marcos.money.repository.projetion.ResumoLancamento;
 
 import exceptions.LancamentoDuplicadoException;
 import exceptions.LancamentoNotFundException;
@@ -28,6 +29,12 @@ public class LancamentoService {
 //	LISTAR TODOS
 	public Page<Lancamento> pesquisaFiltrada(LancamentoFilter lancamentoFilter, Pageable pageable){
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);	}
+	
+	
+	//	LISTAR TODOS
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);	}
+	
 	
 //	BUSCAR POR ID
 	public Lancamento buscarPorID( Long codigo) throws LancamentoNotFundException {

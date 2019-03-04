@@ -78,11 +78,13 @@ public class CategoriaResource {
 	//	DELETANDO ENTIDADE
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public void deletar(@PathVariable Long codigo) {
 		categoriaService.delelar(codigo);
 	}
 	
 	@PutMapping
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public ResponseEntity<Categoria> atualizar(@Valid @RequestBody Categoria categoria){
 		return ResponseEntity.ok(categoriaService.atualizar(categoria));
 	}

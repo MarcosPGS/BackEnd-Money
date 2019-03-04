@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class PessoaResource {
 	
 //	LISTA TODOS
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<?> listaTodos(){
 		List<Pessoa> pessoas = pessoaService.listar();
 		return !pessoas.isEmpty() ? ResponseEntity.ok(pessoas) : ResponseEntity.noContent().build();
@@ -41,6 +43,7 @@ public class PessoaResource {
 	
 	// BUSCAR POR ID
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<Object> buscarPorID(@PathVariable Long codigo){
 	try {
 		return ResponseEntity.ok(pessoaService.buscarID(codigo));
@@ -51,6 +54,7 @@ public class PessoaResource {
 	
 	// BUSCAR POR NOME
 	@GetMapping("/nome/{nome}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<Object> buscarPorNome(@PathVariable String nome){
 		Pessoa pessoaEncontrada = pessoaService.buscarPorNome(nome);
 		if(pessoaEncontrada == null) {
@@ -63,6 +67,7 @@ public class PessoaResource {
 //	CRIANDO  ENTIDADE
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public ResponseEntity<Object> salvar(@Valid @RequestBody Pessoa pessoa){
 		try {
 			return ResponseEntity.ok().body(pessoaService.criar(pessoa));
@@ -74,12 +79,14 @@ public class PessoaResource {
 //	DELETANDO ENTIDADE
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public void deletar(@PathVariable Long codigo) {
 		pessoaService.deletar(codigo);
 	}
 	
 //	ATUALIZAR ENTIDADE
 	@PutMapping
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public ResponseEntity<Pessoa> atualizar(@Valid @RequestBody Pessoa pessoa){
 		return ResponseEntity.ok(pessoaService.atualizar(pessoa));
 	}
@@ -87,6 +94,7 @@ public class PessoaResource {
 //	ATUALIZAR ENTIDADE ATIVA
 	@PutMapping("/{codigo}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public void atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
 		try {
 			pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
@@ -95,16 +103,17 @@ public class PessoaResource {
 		}
 	}
 	
-	// BUSCAR POR ID
-	@GetMapping("/id/{codigo}")
-	public ResponseEntity<Object> buscarPorCodigo(@PathVariable Long codigo){
-		
-		try {
-			return ResponseEntity.ok(pessoaService.buscarPorId(codigo));
-		} catch (PessoaNotFoundDeleteExcption e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
-		
-	}
+//	// BUSCAR POR ID
+//	@GetMapping("/id/{codigo}")
+//	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+//	public ResponseEntity<Object> buscarPorCodigo(@PathVariable Long codigo){
+//		
+//		try {
+//			return ResponseEntity.ok(pessoaService.buscarPorId(codigo));
+//		} catch (PessoaNotFoundDeleteExcption e) {
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//		}
+//		
+//	}
 	
 }
